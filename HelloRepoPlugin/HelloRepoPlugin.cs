@@ -213,6 +213,18 @@ public sealed class RepoAgentExtended : BaseUnityPlugin
                 list.Add(new ItemPos(v.transform.position));
             }
         }
+
+        // Если первый способ не дал результатов, пытаемся получить их из ItemManager
+        if (list.Count == 0 && ItemManager.instance?.spawnedItems != null)
+        {
+            foreach (var item in ItemManager.instance.spawnedItems)
+            {
+                if (item == null) continue;
+                if (list.Count >= MAX_ITEMS) break;
+
+                list.Add(new ItemPos(item.transform.position));
+            }
+        }
         o.item_pos = list.ToArray();
         o.item_count = o.item_pos.Length;
 
